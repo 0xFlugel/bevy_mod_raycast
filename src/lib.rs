@@ -1,8 +1,7 @@
-mod debug;
 mod primitives;
 mod raycast;
 
-pub use crate::{debug::*, primitives::*};
+pub use crate::primitives::*;
 
 use crate::raycast::*;
 use bevy::{
@@ -45,14 +44,6 @@ impl<T: 'static + Send + Sync> Plugin for DefaultRaycastingPlugin<T> {
                                 bool_criteria(state.update_raycast)
                             })
                             .after(RaycastSystem::BuildRays),
-                    )
-                    .with_system(
-                        update_debug_cursor::<T>
-                            .label(RaycastSystem::UpdateDebugCursor)
-                            .with_run_criteria(|state: Res<DefaultPluginState<T>>| {
-                                bool_criteria(state.update_debug_cursor)
-                            })
-                            .after(RaycastSystem::UpdateRaycast),
                     ),
             );
     }
